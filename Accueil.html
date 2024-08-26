@@ -1,0 +1,456 @@
+
+
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPL Tech - Disques Durs et Clés USB</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        color: #333;
+    }
+    header {
+        background-color: #1a1a2e;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+    }
+    nav {
+        background-color: #16213e;
+        padding: 0.5rem;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+    nav ul li {
+        margin: 0 1rem;
+    }
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+    }
+    main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    .product-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .product-info {
+        padding: 1rem;
+    }
+    .product-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    .product-price {
+        font-weight: bold;
+        color: #0f3460;
+    }
+    .quantity-control {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .quantity-btn {
+        background-color: #0f3460;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.25rem 0.5rem;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .quantity-input {
+        width: 40px;
+        text-align: center;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .add-to-cart {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        background-color: #0f3460;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .add-to-cart:hover {
+        background-color: #16213e;
+    }
+    #cart-icon {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background-color: #0f3460;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    #cart-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.8rem;
+    }
+    footer {
+        background-color: #1a1a2e;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+    .contact-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+    }
+    .contact-info img {
+        width: 30px;
+        height: 30px;
+        margin: 0 0.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    #cart-modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-width: 80%;
+        width: 400px;
+    }
+    .close-modal {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    #cart-items {
+        margin-bottom: 1rem;
+    }
+    #cart-total {
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    #cart-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+    #empty-cart, #checkout {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    #empty-cart {
+        background-color: #ff4d4d;
+        color: white;
+    }
+    #empty-cart:hover {
+        background-color: #ff3333;
+    }
+    #checkout {
+        background-color: #4CAF50;
+        color: white;
+    }
+    #checkout:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <h1>SPL Tech</h1>
+        <p>Votre spécialiste en disques durs et clés USB au Congo Brazzaville</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#produits">Produits</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="produits">
+            <h2>Nos Produits</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="OIP (2).jpg" alt="Disque dur externe 1To" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Disque dur externe 1To</h3>
+                        <p class="product-price">39500 FCFA</p>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart" data-price="39500">Ajouter au panier</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="R (4).jfif" alt="Clé USB 32Go" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Clé USB 32Go</h3>
+                        <p class="product-price">13000 FCFA</p>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart" data-price="13000">Ajouter au panier</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="R (3).jfif" alt="Disque SSD 500Go" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Disque SSD 500Go</h3>
+                        <p class="product-price">59000 FCFA</p>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart" data-price="59000">Ajouter au panier</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="OIP (3).jfif" alt="Clé USB 64Go" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">Clé USB 64Go</h3>
+                        <p class="product-price">19500 FCFA</p>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart" data-price="19500">Ajouter au panier</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 SPL Tech. Tous droits réservés.</p>
+        <div class="contact-info">
+            <img src="mtn-logo.png" alt="Logo MTN" width="30" height="30">
+            <span>+242 06 897 97 47</span>
+            <img src="airtel-logo.png" alt="Logo Airtel" width="30" height="30">
+            <span>+242 05 632 37 22</span>
+        </div>
+    </footer>
+    <div id="cart-icon">
+        🛒
+        <span id="cart-count">0</span>
+    </div>
+    <div id="cart-modal">
+        <span class="close-modal">&times;</span>
+        <h2>Votre Panier</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+        <div id="cart-actions">
+            <button id="empty-cart">Vider le panier</button>
+            <button id="checkout">Commander</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        let cart = [];
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const cartIcon = document.getElementById('cart-icon');
+        const cartCount = document.getElementById('cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const closeModal = document.querySelector('.close-modal');
+        const emptyCartButton = document.getElementById('empty-cart');
+        const checkoutButton = document.getElementById('checkout');
+        const quantityInputs = document.querySelectorAll('.quantity-input');
+        const minusButtons = document.querySelectorAll('.minus');
+        const plusButtons = document.querySelectorAll('.plus');
+
+        // Smooth scroll to products section when clicking on "Produits" in nav
+        document.querySelector('nav ul li:nth-child(2) a').addEventListener('click', function(e) {
+            e.preventDefault();
+            const productsSection = document.getElementById('produits');
+            productsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Quantity control
+        minusButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const input = button.nextElementSibling;
+                let value = parseInt(input.value);
+                if (value > 1) {
+                    input.value = value - 1;
+                }
+            });
+        });
+
+        plusButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const input = button.previousElementSibling;
+                let value = parseInt(input.value);
+                input.value = value + 1;
+            });
+        });
+
+        quantityInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                if (input.value < 1) {
+                    input.value = 1;
+                }
+            });
+        });
+
+        addToCartButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const quantity = parseInt(button.parentElement.querySelector('.quantity-input').value);
+                const product = {
+                    id: index,
+                    name: button.parentElement.querySelector('.product-title').textContent,
+                    price: parseFloat(button.getAttribute('data-price')),
+                    quantity: quantity
+                };
+                
+                const existingProductIndex = cart.findIndex(item => item.id === product.id);
+                if (existingProductIndex !== -1) {
+                    cart[existingProductIndex].quantity += quantity;
+                } else {
+                    cart.push(product);
+                }
+                
+                updateCart();
+                
+                gsap.to(button, {
+                    duration: 0.2,
+                    scale: 1.2,
+                    yoyo: true,
+                    repeat: 1
+                });
+            });
+        });
+
+        function updateCart() {
+            let totalItems = 0;
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                totalItems += item.quantity;
+                cartItems.innerHTML += `<p>${item.name} - ${item.quantity} x ${item.price.toFixed(0)} FCFA = ${(item.quantity * item.price).toFixed(0)} FCFA</p>`;
+                total += item.quantity * item.price;
+            });
+            cartCount.textContent = totalItems;
+            cartTotal.textContent = `Total: ${total.toFixed(0)} FCFA`;
+
+            if (cart.length > 0) {
+                emptyCartButton.style.display = 'block';
+                checkoutButton.style.display = 'block';
+            } else {
+                emptyCartButton.style.display = 'none';
+                checkoutButton.style.display = 'none';
+            }
+        }
+
+        cartIcon.addEventListener('click', () => {
+            cartModal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+
+        function emptyCart() {
+            cart = [];
+            updateCart();
+            gsap.to(emptyCartButton, {
+                duration: 0.3,
+                scale: 1.1,
+                yoyo: true,
+                repeat: 1
+            });
+        }
+
+        emptyCartButton.addEventListener('click', emptyCart);
+
+        checkoutButton.addEventListener('click', () => {
+            const phoneNumber = '+242068979747';
+            let message = 'Nouvelle commande:\n\n';
+            let total = 0;
+
+            cart.forEach(item => {
+                message += `${item.name} - ${item.quantity} x ${item.price.toFixed(0)} FCFA = ${(item.quantity * item.price).toFixed(0)} FCFA\n`;
+                total += item.quantity * item.price;
+            });
+
+            message += `\nTotal: ${total.toFixed(0)} FCFA`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+        });
+
+        gsap.from('.product-card', {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            stagger: 0.2,
+            ease: 'power3.out'
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            gsap.to('header', {
+                duration: 0.5,
+                backgroundColor: scrollPosition > 50 ? '#0f3460' : '#1a1a2e',
+                ease: 'power2.inOut'
+            });
+        });
+    </script>
+</body>
+</html>
